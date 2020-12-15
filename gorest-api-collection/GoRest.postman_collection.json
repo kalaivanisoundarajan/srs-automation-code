@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "1c773206-eab2-405c-ba71-dcfe17260274",
+		"name": "GoRest",
+		"description": "Collection for Add User and Fetch Id service details",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2fff5f3f-b95a-4ab7-a378-acb1426e6519",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a707d1ed-b1cf-40d4-ab21-6835d31b57db",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"code field is 201\",function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.code).to.eql(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ff8a5f35218d1a8ce345b3ad7dec12b409e825c7c6b6e685e4b92ea52bff8897",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"name\":\"user{{$timestamp}}\",\r\n    \"gender\":\"Male\",\r\n    \"email\":\"user{{$timestamp}}@gorest.co.in\",\r\n    \"status\":\"Active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public-api/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public-api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FecthUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ce95d6e3-94d9-48e6-aa52-47c6543adec8",
+						"exec": [
+							"pm.globals.set(\"id\", \"1526\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc939be4-5e85-403a-9996-e42f66bcb6f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Fetch id of user\",function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.id).to.eql(parseInt(pm.variables.get(\"id\")));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ff8a5f35218d1a8ce345b3ad7dec12b409e825c7c6b6e685e4b92ea52bff8897",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public-api/users/{{id}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public-api",
+						"users",
+						"{{id}}"
+					]
+				},
+				"description": "Request to fetch user id details"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
